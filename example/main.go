@@ -1,16 +1,3 @@
-# Ako
-
-#### 介绍
-Ako是用Golang实现的轻量易用的命令行工具，可以很方便的为我们Golang应用程序定义交互命令。
-
-#### 软件架构
-
-
-#### 安装教程
-
-#### 使用说明
-
-```golang
 package main
 
 import (
@@ -54,6 +41,3 @@ func ReloadCommand(c *ako.Console) {
 		fmt.Println(fmt.Sprintf("cmd: reload, argument: %s, options: %d", v.Argument, len(v.Options)))
 	})
 }
-```
-#### 参与贡献
-
