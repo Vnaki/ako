@@ -59,9 +59,8 @@ func (c *Command) render(render RowRender) string {
 	o := ""
 	c.Loop(func(key string, arg *Argument) {
 		o += render(key, arg.description, 2)
-		
-		arg.Loop(func(key string, description string) {
-			o += render("--" + key, description, 4)
+		arg.Loop(func(key string, option *Option) {
+			o += render("--" + key, option.Description(), 4)
 		})
 	})
 	return o

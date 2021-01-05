@@ -10,8 +10,7 @@ func main()  {
 	c := ako.NewConsole("ako")
 
 	c.Wrap(StartCommand)
-	c.Wrap(StopCommand)
-	c.Wrap(ReloadCommand)
+	c.Wrap(VersionCommand)
 
 	c.Run()
 	// or
@@ -24,20 +23,17 @@ func StartCommand(c *ako.Console) {
 	})
 
 	cmd.AddArgument("start", "start server").
-		AddOption("listen", "listen address [HOST:PORT]").
-		AddOption("file", "configuration file")
+		AddOption("listen", ":9000", "listen address [HOST:PORT]").
+		AddOption("file", "./config/app.yml","configuration file")
 
-	cmd.AddArgument("stop", "stop server")
+	cmd.AddArgument("stop", "stop server").
+		AddOption("grace", "no", "gracefully terminate server host, yes or no")
+
+	cmd.AddArgument("reload", "reload config")
 }
 
-func StopCommand(c *ako.Console) {
-	c.AddCommand("stop", "stop http server", func(v ako.Value) {
-		fmt.Println(fmt.Sprintf("cmd: stop, argument: %s, options: %d", v.Argument, len(v.Options)))
-	})
-}
-
-func ReloadCommand(c *ako.Console) {
-	c.AddCommand("reload", "reload http server", func(v ako.Value) {
-		fmt.Println(fmt.Sprintf("cmd: reload, argument: %s, options: %d", v.Argument, len(v.Options)))
+func VersionCommand(c *ako.Console) {
+	c.AddCommand("version", "show app version information", func(v ako.Value) {
+		fmt.Println(fmt.Sprintf("version: 1.0.0"))
 	})
 }

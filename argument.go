@@ -18,12 +18,12 @@ func NewArgument(description string) *Argument {
 }
 
 // 添加参数选项
-func (a *Argument) AddOption(name, description string) *Argument {
+func (a *Argument) AddOption(name, value, description string) *Argument {
 	if !a.ExistOption(name) {
 		a.keys = append(a.keys, name)
 	}
 
-	a.options[name] = NewOption(description)
+	a.options[name] = NewOption(value, description)
 	return a
 }
 
@@ -36,17 +36,17 @@ func (a *Argument) ExistOption(name string) bool {
 }
 
 // 有序遍历参数选项
-func (a *Argument) Loop(fn func(key string, description string)) {
+func (a *Argument) Loop(fn func(key string, option *Option)) {
 	for _, key := range a.keys {
-		fn(key, a.options[key].description)
+		fn(key, a.options[key])
 	}
 }
 
 // 渲染命令参数
 func (a *Argument) render(render RowRender) string {
 	o := ""
-	a.Loop(func(key, description string) {
-		o += render(key, description, 2)
+	a.Loop(func(key string, option *Option) {
+		o += render(key, option.description, 2)
 	})
 	return o
 }
