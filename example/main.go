@@ -7,7 +7,7 @@ import (
 
 // go run example/main.go server start --listen=:9000 --file=./app.yml
 func main()  {
-	c := ako.NewConsole("ako", "Ako Application")
+	c := ako.NewConsole("ako")
 
 	c.Wrap(StartCommand)
 	c.Wrap(StopCommand)

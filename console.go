@@ -14,16 +14,13 @@ type Console struct {
 	name string
 	// 注册的命令
 	commands map[string]*Command
-	// 控制台描述
-	description string
 	// 有序的KEYS
 	keys []string
 }
 
-func NewConsole(name, description string) *Console {
+func NewConsole(name string) *Console {
 	return &Console{
 		name: name,
-		description: description,
 		commands: map[string]*Command{},
 		keys: []string{},
 	}
