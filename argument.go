@@ -19,20 +19,19 @@ func NewArgument(description string) *Argument {
 
 // 添加参数选项
 func (a *Argument) AddOption(name, value, description string) *Argument {
-	if !a.ExistOption(name) {
+	if nil == a.Option(name) {
 		a.keys = append(a.keys, name)
 	}
-
 	a.options[name] = NewOption(value, description)
 	return a
 }
 
-// 参数选项是否存在
-func (a *Argument) ExistOption(name string) bool {
-	if _, ok := a.options[name]; ok {
-		return true
+// 读取参数选项信息
+func (a *Argument) Option(name string) *Option {
+	if option, ok := a.options[name]; ok {
+		return option
 	}
-	return false
+	return nil
 }
 
 // 有序遍历参数选项

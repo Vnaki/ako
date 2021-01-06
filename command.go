@@ -31,20 +31,19 @@ func NewCommand(name, description string, handler Handler) *Command {
 
 // 添加命令参数
 func (c *Command) AddArgument(name, description string) *Argument {
-	if c.ExistArgument(name) == false {
+	if c.Argument(name) == nil {
 		c.keys = append(c.keys, name)
 	}
-
 	c.arguments[name] = NewArgument(description)
 	return c.arguments[name]
 }
 
-// 命令参数是否存在
-func (c *Command) ExistArgument(name string) bool {
-	if _, ok := c.arguments[name]; ok {
-		return true
+// 读取参数信息
+func (c *Command) Argument(name string) *Argument {
+	if arg, ok := c.arguments[name]; ok {
+		return arg
 	}
-	return false
+	return nil
 }
 
 // 有序遍历命令参数
@@ -77,6 +76,6 @@ func (c *Command) help(app string) {
 
 // 错误
 func (c *Command) error(app, err string) {
-	fmt.Printf("Report: %s.\n", err)
+	fmt.Printf("error: %s.\n", err)
 	c.help(app)
 }
