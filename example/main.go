@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/wuquanyao/ako"
 )
 
 // go run example/main.go server start --listen=:9000 --file=./app.yml
-func main()  {
+func main() {
 	c := ako.NewConsole("ako")
 
-	c.Wrap(StartCommand)
+	c.Wrap(ServerCommand)
 	c.Wrap(VersionCommand)
 
 	c.Run()
@@ -17,7 +18,7 @@ func main()  {
 	// c.Args(os.Args[1:])
 }
 
-func StartCommand(c *ako.Console) {
+func ServerCommand(c *ako.Console) {
 	// 注册`server`命令, 拥有`start`、`stop`、`reload`三个参数
 	cmd := c.AddCommand("server", "http server", func(v ako.Value) {
 		switch v.Argument {
@@ -54,7 +55,7 @@ func StartCommand(c *ako.Console) {
 	// 参数`start`拥有`listen`和`file`两个选项
 	cmd.AddArgument("start", "start server").
 		AddOption("listen", ":9000", "listen address [HOST:PORT]").
-		AddOption("file", "./config/app.yml","configuration file")
+		AddOption("file", "./config/app.yml", "configuration file")
 
 	// 参数`stop`只拥有`grace`一个选项
 	cmd.AddArgument("stop", "stop server").

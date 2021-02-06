@@ -1,9 +1,9 @@
-# Ako
+# Ako命令行
 
-### 介绍
+#### 项目介绍
 Ako是用Golang实现的命令行工具，可以很方便的实现Golang的命令行应用程序。
 
-### 概念
+#### 概念说明
 
 ```
 Usage: ako COMMAND <ARGUMENT> [--OPTION...]
@@ -16,7 +16,7 @@ Usage: ako COMMAND <ARGUMENT> [--OPTION...]
 
 > 比如演示案例中有个`server`命令,该命令有`start`、`stop`、 `reload` 三个参数, `start`参数有`listen`、`file`、`log`三个选项,其中`log`选项是未预设的
 
-### 使用演示
+#### 代码演示
 
 ```golang
 package main
@@ -30,7 +30,8 @@ import (
 func main()  {
 	c := ako.NewConsole("ako")
 
-	c.Wrap(StartCommand)
+	// 注册命令
+	c.Wrap(ServerCommand)
 	c.Wrap(VersionCommand)
 
 	c.Run()
@@ -38,7 +39,16 @@ func main()  {
 	// c.Args(os.Args[1:])
 }
 
-func StartCommand(c *ako.Console) {
+// 注册版本号命令
+func VersionCommand(c *ako.Console) {
+	// 注册`version`命令, 没有参数和参数选项
+	c.AddCommand("version", "show app version information", func(v ako.Value) {
+		fmt.Println(fmt.Sprintf("version: 1.0.0"))
+	})
+}
+
+// 注册Server命令
+func ServerCommand(c *ako.Console) {
 	// 注册`server`命令, 拥有`start`、`stop`、`reload`三个参数
 	cmd := c.AddCommand("server", "http server", func(v ako.Value) {
 		switch v.Argument {
@@ -85,15 +95,9 @@ func StartCommand(c *ako.Console) {
 	cmd.AddArgument("reload", "reload config")
 }
 
-func VersionCommand(c *ako.Console) {
-	// 注册`version`命令, 没有参数和参数选项
-	c.AddCommand("version", "show app version information", func(v ako.Value) {
-		fmt.Println(fmt.Sprintf("version: 1.0.0"))
-	})
-}
 ```
 
-### 运行脚本
+#### 运行脚本
 
 ```shell
 go run example/main.go server start --listen=:9000 --file=./app.yml --log=./aoo.log
