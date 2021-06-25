@@ -9,6 +9,7 @@ import (
 // app <command> [argument] [--option]
 // app server start --config=./app.yml
 
+// Console 命令行
 type Console struct {
 	// 控制台名称
 	name string
@@ -18,6 +19,7 @@ type Console struct {
 	keys []string
 }
 
+// NewConsole 新建命令行
 func NewConsole(name string) *Console {
 	return &Console{
 		name: name,
@@ -26,7 +28,7 @@ func NewConsole(name string) *Console {
 	}
 }
 
-// 注册命令
+// AddCommand t添加命令
 func (c *Console) AddCommand(name string, description string, handler Handler) *Command {
 	if c.Command(name) == nil {
 		c.keys = append(c.keys, name)
@@ -35,7 +37,7 @@ func (c *Console) AddCommand(name string, description string, handler Handler) *
 	return c.commands[name]
 }
 
-// 读取命令信息
+// Command 读取命令信息
 func (c *Console) Command(name string) *Command {
 	if cmd, ok := c.commands[name]; ok {
 		return cmd
@@ -43,22 +45,24 @@ func (c *Console) Command(name string) *Command {
 	return nil
 }
 
-// 解耦操作
+// Wrap 解耦操作
 func (c *Console) Wrap(fn func(console *Console)) {
 	fn(c)
 }
 
-// 有序遍历命令
+// Loop 有序遍历命令
 func (c *Console) Loop(fn func(key string, command *Command)) {
 	for _, key := range c.keys {
 		fn(key, c.commands[key])
 	}
 }
 
+// Run 运行命令
 func (c *Console) Run() {
 	c.Args(os.Args[1:])
 }
 
+// Args 运行命令
 func (c *Console) Args(args []string) {
 	size := len(args)
 

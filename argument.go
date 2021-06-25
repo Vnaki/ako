@@ -1,5 +1,6 @@
 package ako
 
+// Argument 命令参数
 type Argument struct {
 	// 参数选项
 	options map[string]*Option
@@ -9,6 +10,7 @@ type Argument struct {
 	keys []string
 }
 
+// NewArgument 新建参数
 func NewArgument(description string) *Argument {
 	return &Argument{
 		description: description,
@@ -17,7 +19,7 @@ func NewArgument(description string) *Argument {
 	}
 }
 
-// 添加参数选项
+// AddOption 添加参数选项
 func (a *Argument) AddOption(name, value, description string) *Argument {
 	if nil == a.Option(name) {
 		a.keys = append(a.keys, name)
@@ -26,7 +28,7 @@ func (a *Argument) AddOption(name, value, description string) *Argument {
 	return a
 }
 
-// 读取参数选项信息
+// Option 读取参数选项信息
 func (a *Argument) Option(name string) *Option {
 	if option, ok := a.options[name]; ok {
 		return option
@@ -34,7 +36,7 @@ func (a *Argument) Option(name string) *Option {
 	return nil
 }
 
-// 有序遍历参数选项
+// Loop 有序遍历参数选项
 func (a *Argument) Loop(fn func(key string, option *Option)) {
 	for _, key := range a.keys {
 		fn(key, a.options[key])

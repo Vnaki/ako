@@ -8,6 +8,7 @@ import (
 
 type RowRender = func(key, description string, indent int) string
 
+// Render 渲染
 type Render struct {
 	// 宽度
 	width int

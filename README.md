@@ -23,11 +23,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/wuquanyao/ako"
+	"github.com/vnaki/ako"
 )
 
 // go run example/main.go server start --listen=:9000 --file=./app.yml --log=./aoo.log
-func main()  {
+func main() {
 	c := ako.NewConsole("ako")
 
 	// 注册命令
@@ -39,7 +39,7 @@ func main()  {
 	// c.Args(os.Args[1:])
 }
 
-// 注册版本号命令
+// VersionCommand 注册版本号命令
 func VersionCommand(c *ako.Console) {
 	// 注册`version`命令, 没有参数和参数选项
 	c.AddCommand("version", "show app version information", func(v ako.Value) {
@@ -47,7 +47,7 @@ func VersionCommand(c *ako.Console) {
 	})
 }
 
-// 注册Server命令
+// ServerCommand 注册Server命令
 func ServerCommand(c *ako.Console) {
 	// 注册`server`命令, 拥有`start`、`stop`、`reload`三个参数
 	cmd := c.AddCommand("server", "http server", func(v ako.Value) {
@@ -63,7 +63,7 @@ func ServerCommand(c *ako.Console) {
 				fmt.Println("config file: ", v.Options["file"])
 			}
 
-            // 未预设的选项
+			// 未预设的选项
 			if v.Options["log"] != "" {
 				// todo...
 				fmt.Println("log file: ", v.Options["log"])
@@ -85,7 +85,7 @@ func ServerCommand(c *ako.Console) {
 	// 参数`start`拥有`listen`和`file`两个选项
 	cmd.AddArgument("start", "start server").
 		AddOption("listen", ":9000", "listen address [HOST:PORT]").
-		AddOption("file", "./config/app.yml","configuration file")
+		AddOption("file", "./config/app.yml", "configuration file")
 
 	// 参数`stop`只拥有`grace`一个选项
 	cmd.AddArgument("stop", "stop server").

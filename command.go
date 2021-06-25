@@ -6,6 +6,7 @@ import (
 
 type Handler = func(value Value)
 
+// Command 命令
 type Command struct {
 	// 命令名称
 	name string
@@ -19,6 +20,7 @@ type Command struct {
 	keys []string
 }
 
+// NewCommand 新建命令
 func NewCommand(name, description string, handler Handler) *Command {
 	return &Command{
 		name: name,
@@ -29,7 +31,7 @@ func NewCommand(name, description string, handler Handler) *Command {
 	}
 }
 
-// 添加命令参数
+// AddArgument 添加命令参数
 func (c *Command) AddArgument(name, description string) *Argument {
 	if c.Argument(name) == nil {
 		c.keys = append(c.keys, name)
@@ -38,7 +40,7 @@ func (c *Command) AddArgument(name, description string) *Argument {
 	return c.arguments[name]
 }
 
-// 读取参数信息
+// Argument 读取命令参数信息
 func (c *Command) Argument(name string) *Argument {
 	if arg, ok := c.arguments[name]; ok {
 		return arg
@@ -46,7 +48,7 @@ func (c *Command) Argument(name string) *Argument {
 	return nil
 }
 
-// 有序遍历命令参数
+// Loop 有序遍历命令参数
 func (c *Command) Loop(fn func(key string, value *Argument)) {
 	for _, key := range c.keys {
 		fn(key, c.arguments[key])
