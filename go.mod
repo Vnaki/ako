@@ -1,3 +1,3 @@
-module github.com/wuquanyao/ako
+module github.com/vnaki/ako
 
 go 1.15
